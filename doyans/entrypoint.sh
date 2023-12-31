@@ -1,7 +1,5 @@
-#!/bin/bash -> alpine linux scripts execution
+#!/bin/ash
 echo "apply database migration"
+python manage.py makemigrations
 python manage.py migrate
-exec "$@" # exceute command line
-
-
-
+exec "$@"

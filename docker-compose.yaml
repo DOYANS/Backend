@@ -1,18 +1,26 @@
 version: "3.11"
 
 services:
-  doyans:
-    container_name: doyansserver
-    image: doyans:doyansbackendserver
+  backend:
+    container_name: doyans
+    image: backend:doyansbackendserver
     build:
-    # django project
       context: ./doyans
-    command: python manage.py runserver 0.0.0.0:8000 # run on container port
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./doyans:/user/src/app/ # create and copy build files
     ports:
       - 8000:8000 # mapping local computer to docker port
-    environment: # environment variable
-      - DEBUG = True # debug
-      - SECRET_KEY = A234N4H2#$34dsfSD&*^NDAHD76757NK66jkhn567k$%^%$6jhjkjhhad7
-      - ALLOWED_HOSTS = localhost, 127.0.0.1
+    env_file:
+      - ./dev.env
+    # depends_on:
+  #     - database
+
+  # database:
+  #   image: postgres
+  #   volumes:
+  #     - ./data/db:
+  #   ports:
+  #     - 5432:5432
+  #   env_file:
+  #     - ./dev.env
