@@ -10,13 +10,14 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "z1-8gl9nyb$is%1p3fm3*bv&l##i74d%&3!@#on9j29_$-)s-q_6p1"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 
 # allowed hosts
-ALLOWED_HOSTS = ["127.0.0.1",]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
+
 # csrf whitelist
 CSRF_TRUSTED_ORIGINS = ["https://127.0.0.1",]
 
@@ -56,9 +57,7 @@ MIDDLEWARE = [
 
 
     'django.contrib.sessions.middleware.SessionMiddleware',
-    
     # 'django.contrib.sessions.middleware.WhiteNoiseMiddleWare',
-    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -134,7 +133,7 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS':[
         'rest_framework.schemas.openapi.AutoSchema',
     ],
-    
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 
@@ -161,7 +160,8 @@ SIMPLE_JWT = {
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+    "USER_AUTHENTICATION_RULE": 
+    "rest_framework_simplejwt.authentication.default_user_authentication_rule",
 
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
     "TOKEN_TYPE_CLAIM": "token_type",
@@ -177,8 +177,11 @@ SIMPLE_JWT = {
     "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
     "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
     "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
-    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
-    "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+    "SLIDING_TOKEN_OBTAIN_SERIALIZER": 
+    "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
+
+    "SLIDING_TOKEN_REFRESH_SERIALIZER": 
+    "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
 LANGUAGE_CODE = 'en-us'
