@@ -1,26 +1,27 @@
 version: "3.11"
 
 services:
-  backend:
-    container_name: doyans
-    image: backend:doyansbackendserver
+  app:
+    container_name: doyans-backend
+    image: backend:server
     build:
-      context: ./doyans
+      context: ./backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./doyans:/user/src/app/ # create and copy build files
+      - ./backend:/code/ # create and copy build files
     ports:
-      - 8000:8000 # mapping local computer to docker port
+      - '8000:8000' # mapping local computer to docker port
     env_file:
       - ./dev.env
-    # depends_on:
-  #     - database
+    depends_on:
+      - db
 
-  # database:
-  #   image: postgres
-  #   volumes:
-  #     - ./data/db:
-  #   ports:
-  #     - 5432:5432
-  #   env_file:
-  #     - ./dev.env
+  db:
+    container_name: doyans-db
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - ./dev.env
